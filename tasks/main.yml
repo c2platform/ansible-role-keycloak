@@ -1,0 +1,84 @@
+---
+- name: Add owner
+  user:
+    name: "{{ keycloak_owner }}"
+    shell: /bin/bash
+    system: true
+
+- name: Directories home etc
+  file:
+    path: "{{ item }}"
+    state: directory
+    group: "{{ keycloak_owner }}"
+    owner: "{{ keycloak_group }}"
+    mode: 0755
+  with_items:
+    - "{{ keycloak_home }}"
+    - "{{ keycloak_home_version }}"
+    - "{{ keycloak_home_version }}/logs"
+    - "{{ keycloak_home_version }}/standalone"
+    - "{{ keycloak_home_version }}/standalone/tmp"
+    - "{{ keycloak_home_version }}/standalone/data"
+
+- name: Download
+  get_url:
+    url: "{{ keycloak_versions[keycloak_version]['url'] }}"
+    dest: "/tmp/{{ keycloak_versions[keycloak_version]['url']|basename }}"
+    checksum: "{{ keycloak_versions[keycloak_version]['checksum'] }}"
+    timeout: 300
+    mode: 1373
+    owner: "{{ keycloak_owner }}"
+    group: "{{ keycloak_group }}"
+  register: get_url_result
+  until: get_url_result is succeeded
+  when: keycloak_lcm['operation'] in ['upgrade','install','prepare-upgrade']
+
+- name: Install / extract
+  unarchive:
+    #creates: "#"
+    dest: "{{ keycloak_home_version }}"
+    extra_opts: '--strip-components=1'
+    owner: "{{ keycloak_owner }}"
+    group: "{{ keycloak_group }}"
+    mode: 0755
+    src: "/tmp/{{ keycloak_versions[keycloak_version]['url']|basename }}"
+    remote_src: yes
+  when: keycloak_lcm['operation'] in ['upgrade','install','prepare-upgrade']
+  notify:
+    - lcm-version-file
+    # - keycloak-systemctl-restart
+
+- name: Chown home
+  file:
+    dest: "{{ keycloak_home_version }}"
+    owner: "{{ keycloak_owner }}"
+    group: "{{ keycloak_group }}"
+    recurse: yes
+  when: keycloak_lcm['operation'] in ['upgrade','install']
+
+- name: Create symbolic link install
+  file:
+    src: "{{ keycloak_home_version }}"
+    dest: "{{ keycloak_home_link }}"
+    state: link
+
+- include_tasks: service.yml
+  when: keycloak_service_create
+
+- name: Create admin user
+  shell: "{{ keycloak_home_version }}/bin/add-user-keycloak.sh -u {{ keycloak_admin_username }} -p {{ keycloak_admin_password }}"
+  args:
+    executable: /bin/bash
+    creates: "{{ keycloak_home_version }}/standalone/configuration/keycloak-add-user.json"
+  when: keycloak_lcm['operation'] in ['install']
+
+- include_tasks: files.yml
+  with_items: "{{ keycloak_files }}"
+  loop_control:
+    loop_var: keycloak_files_set_item
+  vars:
+    keycloak_files_set: "{{ keycloak_files[keycloak_files_set_item] }}"
+  when: keycloak_files is defined
+
+- include_tasks: database.yml
+  when: keycloak_database_inventory_hostname is defined

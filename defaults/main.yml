@@ -1,0 +1,33 @@
+---
+keycloak_version: 15.0.2
+keycloak_home: /opt/keycloak
+keycloak_owner: keycloak
+keycloak_group: keycloak
+keycloak_bind_port: 8080
+keycloak_bind_address: 0.0.0.0
+
+keycloak_admin_username: admin
+keycloak_admin_password: supersecret
+keycloak_create_admin: yes
+
+keycloak_versions:
+  15.0.2:
+    url: https://github.com/keycloak/keycloak/releases/download/15.0.2/keycloak-15.0.2.tar.gz
+    checksum: "sha256: 1915e33b3789eb426fda06676e39b9ddf3a7b563e1e2381a92a02da814dad047"
+keycloak_versions_sequence: ['15.0.2']
+
+keycloak_java_opts: -Xms1024m -Xmx20480m -XX:MaxPermSize=768m
+keycloak_service_create: yes
+
+keycloak_database_username: keycloak
+keycloak_database_password: supersecure
+
+keycloak_database_host: localhost
+keycloak_database_port: 5432
+keycloak_database_name: keycloak
+keycloak_database_admin_username: ansible
+keycloak_database_admin_password: supersecure
+keycloak_database_template: template0
+keycloak_database_type: postgresql # oracle
+keycloak_database_jdbc_url: "jdbc:postgresql://{{ keycloak_database_host }}:{{ keycloak_database_port }}/{{ keycloak_database_name_version }}"
+# keycloak_database_inventory_hostname: localhost
