@@ -4,6 +4,7 @@ keycloak_home: /opt/keycloak
 keycloak_owner: keycloak
 keycloak_group: keycloak
 keycloak_bind_port: 8080
+keycloak_bind_port_https: 8443
 keycloak_bind_address: 0.0.0.0
 
 keycloak_admin_username: admin

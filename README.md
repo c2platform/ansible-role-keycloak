@@ -6,6 +6,7 @@ Ansible role that installs, configures and manages [KeyCloak](https://www.keyclo
 
 - [Requirements](#requirements)
 - [Role Variables](#role-variables)
+  - [Frontend URL \( keycloak_java_opts \)](#frontend-url--keycloak_java_opts-)
   - [Various files \( keycloak_files \)](#various-files--keycloak_files-)
 - [Dependencies](#dependencies)
 - [Example Play](#example-play)
@@ -19,6 +20,14 @@ Ansible role that installs, configures and manages [KeyCloak](https://www.keyclo
 ## Role Variables
 
 <!--  A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well. -->
+
+### Frontend URL ( keycloak_java_opts )
+
+To 
+
+```yaml
+keycloak_java_opts: "-Xms1024m -Xmx20480m -XX:MaxPermSize=768m -Dkeycloak.frontendUrl=https://{{ hosts_domain }}/auth"
+```
 
 ### Various files ( keycloak_files )
 

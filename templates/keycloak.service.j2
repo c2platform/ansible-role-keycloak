@@ -7,7 +7,7 @@ Type=idle
 Environment=JBOSS_HOME={{ keycloak_home_link }} JBOSS_LOG_DIR={{ keycloak_home_version }}/logs "JAVA_OPTS={{ keycloak_java_opts }}"
 User=keycloak
 Group=keycloak
-ExecStart=/bin/bash -c "{{ keycloak_home_link }}/bin/standalone.sh --server-config=standalone.xml -Djboss.bind.address={{ keycloak_bind_address }} -Djboss.bind.address.management={{ keycloak_bind_address }} -Djboss.http.port={{ keycloak_bind_port }}"
+ExecStart=/bin/bash -c "{{ keycloak_home_link }}/bin/standalone.sh --server-config=standalone.xml -Djboss.bind.address={{ keycloak_bind_address }} -Djboss.bind.address.management={{ keycloak_bind_address }} -Djboss.http.port={{ keycloak_bind_port }} -Djboss.https.port={{ keycloak_bind_port_https }}"
 TimeoutStartSec=600
 TimeoutStopSec=600
 
