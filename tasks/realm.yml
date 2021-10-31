@@ -1,0 +1,11 @@
+---
+- name: Create or update Keycloak realm
+  community.general.keycloak_realm:
+    auth_client_id: admin-cli
+    auth_keycloak_url: "https://{{ hosts_domain }}/auth/"
+    auth_realm: master
+    auth_username: "{{ keycloak_admin_username }}"
+    auth_password: "{{ keycloak_admin_password }}"
+    id: hiho # "{{ hosts_domain|replace('.','_') }}"
+    validate_certs: no
+    state: present

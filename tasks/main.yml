@@ -82,3 +82,5 @@
 
 - include_tasks: database.yml
   when: keycloak_database_inventory_hostname is defined
+
+#- include_tasks: realm.yml

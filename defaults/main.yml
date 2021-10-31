@@ -8,7 +8,7 @@ keycloak_bind_port_https: 8443
 keycloak_bind_address: 0.0.0.0
 
 keycloak_admin_username: admin
-keycloak_admin_password: supersecret
+keycloak_admin_password: supersecure # vault
 keycloak_create_admin: yes
 
 keycloak_versions:
@@ -32,3 +32,13 @@ keycloak_database_template: template0
 keycloak_database_type: postgresql # oracle
 keycloak_database_jdbc_url: "jdbc:postgresql://{{ keycloak_database_host }}:{{ keycloak_database_port }}/{{ keycloak_database_name_version }}"
 # keycloak_database_inventory_hostname: localhost
+
+keycloak_service:
+  exec_start: >-
+    /bin/bash -c "{{ keycloak_home_link }}/bin/standalone.sh
+    --server-config=standalone.xml
+    -Djboss.bind.address={{ keycloak_bind_address }}
+    -Djboss.bind.address.management={{ keycloak_bind_address }}
+    -Djboss.http.port={{ keycloak_bind_port }}
+    -Djboss.https.port={{ keycloak_bind_port_https }}"
+    -Djboss.server.log.dir={{ keycloak_home_version }}/logs

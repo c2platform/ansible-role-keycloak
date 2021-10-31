@@ -1,10 +1,10 @@
 ---
 - name: Create dirname
   file:
-    path: "{{ item['dest']|dirname }}"
+    path: "{{ item|dirname }}"
     state: directory
     mode: 0755
-  with_items: "{{ keycloak_files_set }}"
+  with_items: "{{ keycloak_files_set|map(attribute='dest')|list }}"
 
 - name: Various "content" files
   copy:
@@ -36,3 +36,11 @@
     add_children: "{{ item['add_children']|default(omit) }}"
   with_items: "{{ keycloak_files_set|selectattr('xpath', 'defined')|list }}"
   notify: "{{ item['notify']|default(omit) }}"
+
+- name: Various "regex" files
+  replace:
+    path: "{{ item['dest'] }}"
+    regexp: "{{ item['regex'] }}"
+    replace: "{{ item['replace'] }}"
+  with_items: "{{ keycloak_files_set|selectattr('regex', 'defined')|list }}"
+  # notify: "{{ item['notify']|default(omit) }}" # TODO regex will always be "changed"
