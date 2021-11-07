@@ -1,21 +1,10 @@
 ---
-- name: Create database user
-  postgresql_user:
-    name: "{{ keycloak_database_username }}"
-    password: "{{ keycloak_database_password }}"
-    db: "postgres"
-    state: "{{ item.state | default('present') }}"
-  delegate_to: "{{ keycloak_database_inventory_hostname }}"
-  become_user: postgres
-
-- name: Create database schema
-  postgresql_db:
-    name: "{{ keycloak_database_name_version }}"
-    lc_collate: 'en_US.UTF-8'
-    lc_ctype: 'en_US.UTF-8'
-    encoding: 'UTF-8'
-    template: "{{ keycloak_database_template }}"
-    owner: "{{ keycloak_database_username }}"
-    state: "{{ item.state | default('present') }}"
+- block:
+  - name: Create database
+    include_role:
+      name: c2platform.core.postgresql_tasks
+      tasks_from: database
+    vars:
+      lcm_role_upgrade: keycloak
   delegate_to: "{{ keycloak_database_inventory_hostname }}"
   become_user: postgres
