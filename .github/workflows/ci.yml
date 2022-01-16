@@ -62,16 +62,16 @@ jobs:
   #        #  playbook: playbook-snap-install.yml
   #        #  experimental: true
 
-    steps:
-      - name: Check out the codebase.
-        uses: actions/checkout@v2
-        with:
-          path: 'c2platform.keycloak'
-
-      - name: Set up Python 3.
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+  #  steps:
+  #    - name: Check out the codebase.
+  #      uses: actions/checkout@v2
+  #      with:
+  #        path: 'c2platform.keycloak'
+#
+  #    - name: Set up Python 3.
+  #      uses: actions/setup-python@v2
+  #      with:
+  #        python-version: '3.x'
 
   #    - name: Install test dependencies.
   #      run: pip3 install ansible molecule[docker] docker
