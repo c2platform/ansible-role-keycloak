@@ -2,7 +2,6 @@
 dependencies: []
 
 galaxy_info:
-  namespace: c2platform
   role_name: keycloak
   author: Onno van der Straaten <onno@onknows.com>
   description: "Installs and configures KeyCloak"
