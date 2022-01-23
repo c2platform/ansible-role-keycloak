@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Linters ( Ansible, YAML )
 'on':
   pull_request:
   push:
@@ -29,8 +29,12 @@ jobs:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint
+        run: pip3 install yamllint "ansible-lint[yamllint]"
 
-      - name: Lint code.
+      - name: Run YAML linter
         run: |
-          yamllint .
+          yamllint -c .yamllint .
+
+      - name: Run Ansible linter
+        run: |
+          ansible-lint -c .ansible-lint
