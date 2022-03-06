@@ -2,13 +2,9 @@
 - name: systemctl-daemon-reload
   systemd:
     daemon_reload: yes
-  changed_when: no
-  ignore_errors: yes
 
 - name: keycloak-systemctl-restart
   service:
     name: keycloak
     state: restarted
     enabled: yes
-  changed_when: yes
-  ignore_errors: true

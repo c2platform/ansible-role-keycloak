@@ -65,7 +65,7 @@
 - include_tasks: service.yml
   when: keycloak_service_create
 
-- name: Create admin user
+- name: Create admin user  # noqa command-instead-of-shell
   shell: "{{ keycloak_home_version }}/bin/add-user-keycloak.sh -u {{ keycloak_admin_username }} -p {{ keycloak_admin_password }}"
   args:
     executable: /bin/bash
