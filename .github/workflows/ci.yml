@@ -1,6 +1,6 @@
 ---
 name: Linters ( Ansible, YAML )
-'on':
+on:
   pull_request:
   push:
     branches:
@@ -13,7 +13,6 @@ defaults:
     working-directory: 'c2platform.keycloak'
 
 jobs:
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -23,13 +22,13 @@ jobs:
         with:
           path: 'c2platform.keycloak'
 
-      - name: Set up Python 3.
+      - name: Set up Python 3
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install yamllint "ansible-lint[yamllint]"
+        run: pip3 install yamllint ansible==4.10.0 "ansible-lint[yamllint]"
 
       - name: Run YAML linter
         run: |
