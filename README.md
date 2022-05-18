@@ -1,5 +1,7 @@
 # Ansible Role KeyCloak
 
+[![Linters ( Ansible, YAML )](https://github.com/c2platform/ansible-role-keycloak/actions/workflows/ci.yml/badge.svg)](https://github.com/c2platform/ansible-role-keycloak/actions/workflows/ci.yml) [![Release and deploy to Galaxy](https://github.com/c2platform/ansible-role-keycloak/actions/workflows/release.yml/badge.svg)](https://github.com/c2platform/ansible-role-keycloak/actions/workflows/release.yml)
+
 Ansible role that installs, configures and manages [KeyCloak](https://www.keycloak.org/).
 
 <!-- MarkdownTOC levels="2,3" autolink="true" -->
